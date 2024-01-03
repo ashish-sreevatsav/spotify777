@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Design by foolishdeveloper.com -->
+    <title>Spotify</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!--Stylesheet-->
+    <style media="screen">
+      @import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
+      @import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
+      *,
+      *:before,
+      *:after {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: #000000;
+        overflow-y: hidden;
+        overflow-x: hidden;
+      }
+      /* .background {
+        width: 1800px;
+        height: 1070px;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+        z-index: -1;
+      } */
+      .background {
+        width: 120%;
+        height: 130%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+        z-index: -1;
+      }
+
+      .background .shape {
+        height: 50%;
+        width: 30%;
+        position: absolute;
+        border-radius: 50%;
+      }
+      .shape:first-child {
+        background: linear-gradient(#1845ad, #23a2f6);
+        left: -80px;
+        top: -80px;
+      }
+      .shape:last-child {
+        background: linear-gradient(to right, #ff512f, #f09819);
+        right: -180px;
+        bottom: -190px;
+      }
+
+      /* .header {
+        height: 60px;
+        width: 1500px;
+        background-color: rgba(255, 255, 255, 0.13);
+        position: absolute;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+        top: 1%;
+        left: 1.225%;
+        padding: 5px 15px;
+      } */
+      .header {
+        height: 7%; /* Adjust as needed */
+        width: 98%; /* Adjust as needed */
+        background-color: rgba(255, 255, 255, 0.13);
+        position: absolute;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+        top: 1%;
+        left: 1%; /* Adjust as needed */
+        padding: 0.3% 0.5%; /* Adjust as needed */
+      }
+
+      .hPlaylist {
+        color: #ffffff;
+        font-size: 35px;
+        margin-left: 15px;
+        margin-top: 5px;
+        position: fixed;
+      }
+
+      .hAddSong{
+        color: #ffffff;
+        font-size: 35px;
+        margin-left: 145px;
+        margin-top: 5px;
+        position: fixed;
+      }
+
+      .logout {
+        width: 80px;
+        background-color: #ffffff;
+        color: #080710;
+        padding: 10px 0;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 10px;
+        cursor: pointer;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        float: inline-end;
+        margin-left: 10px;
+      }
+
+      .logout:hover {
+        background-color: rgba(255, 255, 255, 0.47);
+      }
+
+      .search {
+        width: 230px;
+        background-color: #ffffff;
+        color: #080710;
+        padding: 10px 7px;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 10px;
+        cursor: pointer;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        float: inline-end;
+      }
+
+      a:link {
+        color: #080710;
+        text-decoration: none;
+      }
+
+      a:visited {
+        color: #080710;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #080710;
+        text-decoration: none;
+      }
+
+      a:active {
+        color: #080710;
+        text-decoration: none;
+      }
+
+      #searchResults {
+        position: absolute;
+        top: 75%;
+        right: 7%;
+        width: 230px;
+        color: #080710;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: none;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 10px 7px;
+        cursor: pointer;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        z-index: 99;
+      }
+
+      #searchResults ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      #searchResults li {
+        padding: 10px 3px;
+        border-bottom: 1px solid #eee;
+      }
+
+      #searchResults li:hover {
+        background-color: #f5f5f5;
+      }
+
+      .scroll {
+        overflow-y: hidden;
+        overflow-x: scroll;
+      }
+
+      .cards {
+        padding: 30px;
+        width: initial;
+        display: -webkit-box;
+        justify-content: center;
+        -webkit-justify-content: center;
+        margin-right: 100px;
+        align-items: stretch;
+      }
+
+      .card__like {
+        width: 18px;
+      }
+
+      .card__clock {
+        width: 15px;
+        vertical-align: middle;
+        fill: #ad7d52;
+      }
+      .card__time {
+        font-size: 12px;
+        color: #ad7d52;
+        vertical-align: middle;
+        margin-left: 5px;
+      }
+
+      .card__clock-info {
+        float: right;
+      }
+
+      .card__img {
+        visibility: hidden;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 235px;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+      }
+
+      .card__info-hover {
+        position: absolute;
+        padding: 16px;
+        width: 100%;
+        opacity: 0;
+        top: 0;
+      }
+
+      .card__img--hover {
+        transition: 0.2s all ease-out;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 100%;
+        position: absolute;
+        height: 235px;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        top: 0;
+      }
+      .card {
+        margin-right: 25px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0, 1);
+        background-color: #fff;
+        width: 30%;
+        position: relative;
+        border-radius: 12px;
+        box-shadow: 0px 13px 10px -7px rgba(0, 0, 0, 0.1);
+      }
+      .card:hover {
+        box-shadow: 0px 30px 18px -8px rgba(0, 0, 0, 0.1);
+        transform: scale(1.1, 1.1);
+      }
+
+      .card__info {
+        z-index: 2;
+        background-color: #fff;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+        padding: 16px 24px 24px 24px;
+      }
+
+      .card__category {
+        font-family: "Raleway", sans-serif;
+        text-transform: uppercase;
+        font-size: 13px;
+        letter-spacing: 2px;
+        font-weight: 500;
+        color: #868686;
+      }
+
+      .card__title {
+        margin-top: 5px;
+        margin-bottom: 10px;
+        font-family: "Roboto Slab", serif;
+      }
+
+      .card__by {
+        font-size: 12px;
+        font-family: "Raleway", sans-serif;
+        font-weight: 500;
+      }
+
+      .card__author {
+        font-weight: 600;
+        text-decoration: none;
+        color: #ad7d52;
+      }
+
+      .card:hover .card__img--hover {
+        height: 100%;
+        opacity: 0.3;
+      }
+
+      .card:hover .card__info {
+        background-color: transparent;
+        position: relative;
+      }
+
+      .card:hover .card__info-hover {
+        opacity: 1;
+      }
+
+      .songs {
+        list-style-type: none;
+        margin-top: 111px;
+        margin-left: 50px;
+        z-index: 1;
+      }
+
+      .player {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .lyrics {
+        color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.13);
+        overflow-y: scroll;
+        height: 34%;
+        width: min-content;
+        margin-top: 0%;
+        border-radius: 10px;
+        margin-left: -5%;
+        font-family: "Roboto Slab", serif;
+        text-align: center;
+      }
+
+      /* .playerBox {
+        margin-top: 25px;
+        margin-left: 20px;
+        background-color: rgba(255, 255, 255, 0.13);
+        height: 280px;
+        width: 1000px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: row;
+      } */
+
+      .playerBox {
+        margin-top: 0%; /* Adjust as needed */
+        margin-left: -1.5%; /* Adjust as needed */
+        background-color: rgba(255, 255, 255, 0.13);
+        height: 275px;
+        width: fit-content; /* Adjust as needed */
+        border-radius: 10px;
+        padding: 0.5%;
+
+        width: min-content;
+      }
+
+      .playerDetails {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .details {
+        margin-left: 20px;
+      }
+
+      .controles {
+        display: flex;
+        flex-direction: column;
+        margin-left: 20px;
+      }
+
+      #seek-slider {
+        margin-top: 10px;
+        width: 620px;
+      }
+
+      .playlist {
+        display: none;
+        position: absolute;
+        height: 500px;
+        width: 500px;
+        z-index: 99;
+        border-radius: 25px;
+        top: 20%;
+        left: 37%;
+        background-color: #080710;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        align-items: center;
+        text-align: center;
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background">
+      <div class="shape"></div>
+      <div class="shape"></div>
+    </div>
+    <div class="header">
+      <i
+        class="fab fa-spotify"
+        onclick="window.location = '/dashboard'"
+        style="font-size: 48px; color: rgba(0, 255, 183, 0.812)"
+      ></i>
+      <span class="hPlaylist" onclick="window.location = '/user_playlists'"
+        >Playlists</span
+      >
+      <span class="hAddSong" onclick="window.location = '/add_song'"
+        >Add Songs</span
+      >
+      <button
+        class="logout"
+        type="button"
+        onclick="window.location.href='/logout'"
+      >
+        logout
+      </button>
+      <span id="searchContainer">
+        <input
+          type="text"
+          class="search"
+          id="searchInput"
+          placeholder="Search songs"
+          oninput="filterSongs()"
+        />
+        <div id="searchResults"></div>
+      </span>
+    </div>
+
+    <div id="playlist-popup" class="playlist">
+      <!-- Playlist content will be dynamically added here -->
+      <h1>Playlist</h1>
+    </div>
+
+   <div class="x">
+    <div class="y">
+        <h1 style="margin-top: 100px; margin-left: 80px; color: #ffffff">
+            Present Songs
+          </h1>
+          <div class="scroll">
+            <div class="cards">
+              {% for song in songs %}
+              <article
+                class="card card--1"
+                onclick="playSong('static/img/{{song.name|replace(' ', '')}}.jpg' ,'static/songs/{{song.artist|replace(' ', '')}}-{{song.name|replace(' ', '')}}.mp3','{{song.name}}', '{{song.artist}}', {{song.id}} )"
+              >
+                <div class="card__info-hover">
+                  <button
+                    style="background-color: transparent; border: #ffffff"
+                    onclick="showPlaylists('{{song.id}}')"
+                  >
+                    <svg class="card__like" viewBox="0 0 24 24">
+                      <path
+                        fill="#000000"
+                        d="M12.1,18.55L12,18.65L11.89,18.55C7.14,14.24 4,11.39 4,8.5C4,6.5 5.5,5 7.5,5C9.04,5 10.54,6 11.07,7.36H12.93C13.46,6 14.96,5 16.5,5C18.5,5 20,6.5 20,8.5C20,11.39 16.86,14.24 12.1,18.55M16.5,3C14.76,3 13.09,3.81 12,5.08C10.91,3.81 9.24,3 7.5,3C4.42,3 2,5.41 2,8.5C2,12.27 5.4,15.36 10.55,20.03L12,21.35L13.45,20.03C18.6,15.36 22,12.27 22,8.5C22,5.41 19.58,3 16.5,3Z"
+                      />
+                    </svg>
+                  </button>
+                  <div class="card__clock-info">
+                    <svg class="card__clock" viewBox="0 0 24 24">
+                      <path
+                        d="M12,20A7,7 0 0,1 5,13A7,7 0 0,1 12,6A7,7 0 0,1 19,13A7,7 0 0,1 12,20M19.03,7.39L20.45,5.97C20,5.46 19.55,5 19.04,4.56L17.62,6C16.07,4.74 14.12,4 12,4A9,9 0 0,0 3,13A9,9 0 0,0 12,22C17,22 21,17.97 21,13C21,10.88 20.26,8.93 19.03,7.39M11,14H13V8H11M15,1H9V3H15V1Z"
+                      />
+                    </svg>
+                    <span class="card__time">{{song.duration}} min</span>
+                  </div>
+                </div>
+                <div
+                  class="card__img"
+                  style="background-image: url('../static/img/{{song.name|replace(' ','')}}.jpg');"
+                ></div>
+                <a href="#" class="card_link">
+                  <div
+                    class="card__img--hover"
+                    style="background-image: url('../static/img/{{song.name|replace(' ','')}}.jpg');"
+                  ></div>
+                </a>
+                <div class="card__info">
+                  <span class="card__category"> Song</span>
+                  <h3 class="card__title">{{song.name}}</h3>
+                  <span class="card__by"
+                    >by
+                    <a href="#" class="card__author" title="author"
+                      >{{song.artist}}</a
+                    ></span
+                  >
+                </div>
+              </article>
+              {% endfor %}
+            </div>
+          </div>
+    </div>
+    <div class="z" style="margin-left: 35px;display: flex; flex-direction: row;">
+        <form action="/upload_song" method="post" enctype="multipart/form-data">
+        <article
+                class="card card--1"
+                style="width: fit-content;"
+              >
+                <label for="img" style="margin-left: 6%;">Image: </label>
+                <input type="file" name="img" style="height: 100px; width: 100px;">
+                <br>
+                <label for="song" style="margin-left: 6%;">Song:</label>
+                <input type="file" name="song">
+                <div class="card__info">
+                  <label for="name">Name: </label>
+                  <input type="text" name="name">
+                  <br>
+                  <label for="artist">Author: </label>
+                  <input type="text" name="artist" id="">
+                  <br>
+                  <label for="lyrics">Lyrics: </label>
+                  <textarea name="lyrics" rows="4" cols="50" placeholder="Enter Lyrics line by line"></textarea>
+                  <button type="submit" class="logout">Submit</button>
+                </div>
+        </article>
+        </form>
+        <div class="player">
+            <div class="lyricsMain">
+              <pre id="lyrics" class="lyrics">
+      Feeling my way through the darkness
+      Guided by a beating heart
+      I can't tell where the journey will end
+      But I know where to start
+      They tell me I'm too young to understand
+      They say I'm caught up in a dream
+      Well life will pass me by if I don't open up my eyes
+      Well that's fine by me
+      So wake me up when it's all over
+      When I'm wiser and I'm older
+      All this time I was finding myself, and I
+      Didn't know I was lost
+      So wake me up when it's all over
+      When I'm wiser and I'm older
+      All this time I was finding myself, and I
+      Didn't know I was lost
+      I tried carrying the weight of the world
+      But I only have two hands
+      Hope I get the chance to travel the world
+      But I don't have any plans
+      Wish that I could stay forever this young
+      Not afraid to close my eyes
+      Life's a game made for everyone
+      And love is a prize
+      So wake me up when it's all over
+      When I'm wiser and I'm older
+      All this time I was finding myself, and I
+      Didn't know I was lost
+      So wake me up when it's all over
+      When I'm wiser and I'm older
+      All this time I was finding myself, and I
+      I didn't know I was lost
+      I didn't know I was lost
+      I didn't know I was lost
+      I didn't know I was lost
+      I didn't know        
+              </pre>
+            </div>
+            <div class="playerBox">
+              <div class="playerDetails">
+                <div class="playerImg">
+                  <img
+                    id="playImg"
+                    src="../static/img/WakeMeUp.jpg"
+                    alt="?"
+                    height="100px"
+                    width="100px"
+                    style="border-radius: 25px; padding: 10px"
+                  />
+                </div>
+                <div class="details">
+                  <h2
+                    id="songName"
+                    style="
+                      color: #ffffff;
+                      margin-top: 10px;
+                      font-family: 'Roboto Slab', serif;
+                    "
+                  >
+                    Wake Me Up
+                  </h2>
+                  <h4
+                    id="byName"
+                    style="
+                      color: #ffffff;
+                      margin-bottom: 30px;
+                      font-family: 'Roboto Slab', serif;
+                    "
+                  >
+                    by Tim Bergling
+                  </h4>
+                </div>
+              </div>
+              <div class="controles">
+                <audio
+                  src="../static/songs/TimBergling-WakeMeUp.mp3"
+                  preload="metadata"
+                  loop
+                ></audio>
+      
+                <div class="time" style="width: 630px">
+                  <span id="current-time" style="color: #ffffff; margin-left: 7px"
+                    >00:00</span
+                  >
+                  <span id="duration" style="color: #ffffff; margin-left: 530px"
+                    >00:00</span
+                  >
+                </div>
+                <input type="range" id="seek-slider" value="0" />
+                <div style="margin-top: 20px">
+                  <button
+                    class="shuffle"
+                    style="
+                      border-radius: 10px;
+                      margin-left: 90px;
+                      background-color: transparent;
+                      border: #ffffff;
+                    "
+                  >
+                    <svg
+                      style="height: 50px"
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1em"
+                      viewBox="0 0 512 512"
+                    >
+                      <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                      <style>
+                        svg {
+                          fill: #ffffff;
+                        }
+                      </style>
+                      <path
+                        d="M403.8 34.4c12-5 25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6V160H352c-10.1 0-19.6 4.7-25.6 12.8L284 229.3 244 176l31.2-41.6C293.3 110.2 321.8 96 352 96h32V64c0-12.9 7.8-24.6 19.8-29.6zM164 282.7L204 336l-31.2 41.6C154.7 401.8 126.2 416 96 416H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H96c10.1 0 19.6-4.7 25.6-12.8L164 282.7zm274.6 188c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6V416H352c-30.2 0-58.7-14.2-76.8-38.4L121.6 172.8c-6-8.1-15.5-12.8-25.6-12.8H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H96c30.2 0 58.7 14.2 76.8 38.4L326.4 339.2c6 8.1 15.5 12.8 25.6 12.8h32V320c0-12.9 7.8-24.6 19.8-29.6s25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    class="previous"
+                    style="
+                      border-radius: 10px;
+                      margin-left: 40px;
+                      background-color: transparent;
+                      border: #ffffff;
+                    "
+                    id="previous"
+                  >
+                    <svg
+                      style="height: 50px"
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1em"
+                      viewBox="0 0 512 512"
+                    >
+                      <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                      <style>
+                        svg {
+                          fill: #ffffff;
+                        }
+                      </style>
+                      <path
+                        d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    class="pause"
+                    style="
+                      border-radius: 10px;
+                      margin-left: 40px;
+                      background-color: transparent;
+                      border: #ffffff;
+                    "
+                    id="play-icon"
+                  >
+                    <svg
+                      style="height: 50px"
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1em"
+                      viewBox="0 0 384 512"
+                    >
+                      <path
+                        d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    class="next"
+                    style="
+                      border-radius: 10px;
+                      margin-left: 40px;
+                      background-color: transparent;
+                      border: #ffffff;
+                    "
+                    id="next"
+                  >
+                    <svg
+                      style="height: 50px"
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1em"
+                      viewBox="0 0 512 512"
+                    >
+                      <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                      <style>
+                        svg {
+                          fill: #ffffff;
+                        }
+                      </style>
+                      <path
+                        d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    class="like"
+                    onclick="showPlaylists(1)"
+                    style="
+                      border-radius: 10px;
+                      margin-left: 40px;
+                      background-color: transparent;
+                      border: #ffffff;
+                    "
+                    id="like"
+                  >
+                    <svg
+                      style="height: 50px"
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1em"
+                      viewBox="0 0 512 512"
+                    >
+                      <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                      <style>
+                        svg {
+                          fill: #ffffff;
+                        }
+                      </style>
+                      <path
+                        d="M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8v-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5v3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20c0 0-.1-.1-.1-.1c0 0 0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5v3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2v-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+    </div>
+   </div>
+
+    
+    <script>
+    // your_js_file.js
+                                  // Access the songsData variable                              
+
+                                  var songsData = {{ songs|tojson|safe }};
+                                  document.addEventListener('DOMContentLoaded', function () {
+
+                                            // Function to filter songs based on user input
+                                            window.filterSongs = function() {
+                                                var input, filter, resultsContainer, ul, li, a, i, txtValue;
+                                                input = document.getElementById('searchInput');
+                                                filter = input.value.toUpperCase();
+                                                resultsContainer = document.getElementById('searchResults');
+                                                resultsContainer.style.display = 'block';  // Show the results container
+                                                ul = document.createElement('ul');
+                                                ul.classList.add('search-results');
+
+                                                // Loop through all songsData and create list items
+                                                for (i = 0; i < songsData.length; i++) {
+                                                    txtValue = songsData[i].name.toUpperCase();
+                                                    if (txtValue.indexOf(filter) > -1) {
+                                                        li = document.createElement('li');
+                                                        a = document.createElement('a');
+                                                        var imgUrl = 'static/img/' +songsData[i].name.split(' ').join('')+ '.jpg';
+                                                        var songUrl = 'static/songs/'+songsData[i].artist.split(' ').join('')+'-'+songsData[i].name.split(' ').join('')+'.mp3';
+                                                        var name = songsData[i].name;
+                                                        var artist = songsData[i].artist;
+                                                        var id = songsData[i].id;
+
+                                                        a.onclick = (function(index) {
+                                                            return function() {
+                                                                playSong(imgUrl, songUrl, name, artist, id);
+                                                                console.log(name);
+                                                            };
+                                                        })(i);
+                                                        a.textContent = songsData[i].name;  // Display the song name, modify this based on your needs
+                                                        li.appendChild(a);
+                                                        ul.appendChild(li);
+                                                    }
+                                                }
+
+                                                // Clear previous results and append the new results to the container
+                                                resultsContainer.innerHTML = '';
+                                                resultsContainer.appendChild(ul);
+                                            };
+
+                                            // Function to hide the results when clicking outside the search container
+                                            document.addEventListener('click', function(event) {
+                                                var searchContainer = document.getElementById('searchContainer');
+                                                if (event.target !== searchContainer && !searchContainer.contains(event.target)) {
+                                                    document.getElementById('searchResults').style.display = 'none';
+                                                }
+                                            });
+
+                                            // Function to hide the results when clicking on a result item
+                                            document.getElementById('searchResults').addEventListener('click', function() {
+                                                document.getElementById('searchResults').style.display = 'none';
+                                            });
+                                        });
+
+                                        ////////////////////////////////////////////////////////////////////////////////////
+
+                                        // Get the img element
+                                        const playImg = document.getElementById('playImg');
+
+                                        // Get the name element
+                                        const songName = document.getElementById('songName');
+
+                                        // Get the byName element
+                                        const byName = document.getElementById('byName');
+
+                                        // Get the lyrics element
+                                        const lyrics = document.getElementById('lyrics');
+
+                                        // Get the audio element
+                                        const audio = document.querySelector('audio');
+
+                                        // Get the play button element
+                                        const playButton = document.getElementById('play-icon');
+
+                                        // Add a click event listener to the play button
+                                        playButton.addEventListener('click', () => {
+                                          // Check if the audio is paused or playing and toggle accordingly
+                                          if (audio.paused) {
+                                            audio.play();
+                                            playButton.innerHTML = '<svg style="height: 50px;" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><path d="M48 10C21.5 10 0 31.5 0 58v396c0 26.5 21.5 48 48 48s48-21.5 48-48V58c0-26.5-21.5-48-48-48zm280 0c-26.5 0-48 21.5-48 48v396c0 26.5 21.5 48 48 48s48-21.5 48-48V58c0-26.5-21.5-48-48-48z"/></svg>';
+                                          } else {
+                                            audio.pause();
+                                            playButton.innerHTML = '<svg style="height: 50px;" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg>';
+                                          }
+                                        });
+
+                                        // Add event listeners for the next and previous buttons if you have them
+                                        const nextButton = document.getElementById('next');
+                                        const previousButton = document.getElementById('previous');
+                                        const likeButton = document.getElementById("like");
+
+                                        // Add your functionality for the next and previous buttons if needed
+                                        // ...
+
+                                        // Add event listener for the seek slider
+                                        const seekSlider = document.getElementById('seek-slider');
+
+                                        // Update the current time when the seek slider is moved
+                                        seekSlider.addEventListener('input', () => {
+                                          const seekTime = audio.duration * (seekSlider.value / 100);
+                                          audio.currentTime = seekTime;
+                                        });
+
+                                        // Update the seek slider position as the audio plays
+                                        audio.addEventListener('timeupdate', () => {
+                                          const seekPosition = (audio.currentTime / audio.duration) * 100;
+                                          seekSlider.value = seekPosition;
+                                          lyrics.scrollTop = (seekPosition+10);
+                                        });
+
+                                        // Get the current time and duration elements
+                                        const currentTimeElement = document.getElementById('current-time');
+                                        const durationElement = document.getElementById('duration');
+
+                                        // Add event listener for updating current time and duration
+                                        audio.addEventListener('timeupdate', () => {
+                                          // Update current time
+                                          const currentTime = formatTime(audio.currentTime);
+                                          currentTimeElement.textContent = currentTime;
+
+                                          // Update duration
+                                          const duration = formatTime(audio.duration);
+                                          durationElement.textContent = duration;
+                                        });
+
+                                        // Function to format time in minutes and seconds
+                                        function formatTime(timeInSeconds) {
+                                          const minutes = Math.floor(timeInSeconds / 60);
+                                          const seconds = Math.floor(timeInSeconds % 60);
+                                          return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                                        }
+
+                                        function playSong(imgUrl, songUrl, name, artist,index) {
+                                        // Pause any currently playing songs
+                                        var songData = songsData[index!==undefined?index-1:0];
+                                        const allAudioElements = document.querySelectorAll('audio');
+                                        allAudioElements.forEach((audio) => audio.pause());
+                                        console.log(index);
+                                        audio.src = songUrl;
+                                        playImg.src = imgUrl;
+                                        songName.innerHTML = name;
+                                        byName.innerHTML = "by "+artist;
+                                        lyrics.innerHTML = songData.lyrics;
+                                        likeButton.onclick = function () {showPlaylists(index);};
+                                        playButton.innerHTML = '<svg style="height: 50px;" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><path d="M48 10C21.5 10 0 31.5 0 58v396c0 26.5 21.5 48 48 48s48-21.5 48-48V58c0-26.5-21.5-48-48-48zm280 0c-26.5 0-48 21.5-48 48v396c0 26.5 21.5 48 48 48s48-21.5 48-48V58c0-26.5-21.5-48-48-48z"/></svg>';
+                                        // Play the selected song
+                                        audio.play();
+                                      }
+
+
+                                    function showPlaylists(songId) {
+                                    var playlistPopup = document.getElementById('playlist-popup');
+
+                                    // Fetch playlists from the Flask backend API
+                                    // Assuming you have an endpoint like "/get_playlists"
+                                    fetch('/get_playlists')
+                                        .then(response => response.json())
+                                        .then(playlists => {
+                                            // Clear previous content
+                                            playlistPopup.innerHTML = '';
+
+                                            // If playlists are found, display them
+                                            if (playlists.playlists.length > 0) {
+                                                playlists.playlists.forEach(playlist => {
+                                                    // For each playlist, create a button with an onclick event
+                                                    console.log(playlist.id);
+                                                    playlistPopup.innerHTML += `<button onclick="addSongToPlaylist('${playlist.id}', '${songId}')">${playlist.name}</button></br>`;
+                                                });
+
+                                            } else {
+                                                // If no playlists found, show a message
+                                                playlistPopup.innerHTML += "No More Playlist found! Create One";
+                                            }
+                                            playlistPopup.innerHTML += "For New Playlist Create One!";
+
+                                            playlistPopup.innerHTML += `<button onclick="showCreatePlaylistForm('${songId}')">Create Playlist</button>`;
+
+                                            // Show the playlist popup
+
+                                            playlistPopup.style.display = 'block';
+                                        });
+                                }
+
+                                function addSongToPlaylist(playlistId, songId) {
+                                    // Send a request to the Flask backend to add the song to the selected playlist
+                                    // Assuming you have an endpoint like "/add_song_to_playlist"
+                                    fetch('/add_song_to_playlist', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/x-www-form-urlencoded',
+                                        },
+                                        body: `playlist_id=${playlistId}&song_id=${songId}`,
+                                    })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            // Handle the response from the server, e.g., success message
+                                            console.log(data);
+
+                                            // Close the playlist popup
+                                            document.getElementById('playlist-popup').style.display = 'none';
+                                        });
+                                }
+
+                                function showCreatePlaylistForm(songId) {
+                var playlistPopup = document.getElementById('playlist-popup');
+               
+
+                // Clear previous content
+                playlistPopup.innerHTML = '';
+
+                // Display form for creating a new playlist
+                playlistPopup.innerHTML = `
+                    <form id="createPlaylistForm">
+                        <label for="playlistName">Playlist Name:</label>
+                        <input type="text" id="playlistName" required>
+                        <button type="button" id="createPlaylistButton">Create Playlist</button>
+                    </form>
+                `;
+
+                // Add event listener to the "Create Playlist" button
+                var createPlaylistButton = document.getElementById('createPlaylistButton');
+                createPlaylistButton.addEventListener('click', function() {
+                    addPlaylist(songId);
+                });
+
+                // Show the playlist popup
+                playlistPopup.style.display = 'block';
+            }
+
+
+            function addPlaylist(songId) {
+          var playlistName = document.getElementById('playlistName').value;
+
+          // Send a request to the Flask backend to add the new playlist
+          // Assuming you have an endpoint like "/add_playlist"
+          fetch('/add_playlist', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: `playlist_name=${playlistName}`,
+          })
+          .then(response => response.json())
+          .then(data => {
+              // Handle the response from the server, e.g., success message
+              console.log(data);
+
+              // Optionally, you can call addSongToPlaylist with the newly created playlist ID and the song ID
+              addSongToPlaylist(data.playlistId, songId);
+
+              // Close the playlist popup
+              document.getElementById('playlist-popup').style.display = 'none';
+          });
+      }
+
+      // document.addEventListener('click', function (event) {
+      //     var playlistPopup = document.getElementById('playlist-popup');
+
+      //     // Check if the clicked element is outside the pop-up
+      //     if (event.target !== playlistPopup && !playlistPopup.contains(event.target)) {
+      //         // Clicked outside the pop-up, close it
+      //         playlistPopup.style.display = 'none';
+      //     }
+      // });
+
+                        function open_playlists(){
+
+                        }
+    </script>
+  </body>
+</html>
